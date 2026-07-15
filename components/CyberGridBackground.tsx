@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import React, { useEffect, useRef } from "react";
 
 export const CyberGridBackground = () => {
@@ -15,9 +15,9 @@ export const CyberGridBackground = () => {
       particleCount: 40,
       particleSpeedMin: 0.5,
       particleSpeedMax: 3,
-      particleColors: ["#ffffff", "#24dbe7", "#2f7cf6"],
+      particleColors: ["#111111", "#C6B28A", "#55624A"],
       trailLength: 40, 
-      backgroundColor: "#0b1230",
+      backgroundColor: "#E6E2D6",
       rippleDuration: 2000,
       rippleMaxRadius: 200,
     };
@@ -49,8 +49,8 @@ export const CyberGridBackground = () => {
       bgCtx.fillRect(0, 0, canvas.width, canvas.height);
 
       const gradient = bgCtx.createLinearGradient(0, 0, canvas.width, canvas.height);
-      gradient.addColorStop(0, "rgba(47, 124, 246, 0.35)");
-      gradient.addColorStop(1, "rgba(122, 58, 249, 0)");
+      gradient.addColorStop(0, "rgba(85, 98, 74, 0.35)");
+      gradient.addColorStop(1, "rgba(85, 98, 74, 0)");
       bgCtx.strokeStyle = gradient;
       bgCtx.lineWidth = 1;
 
@@ -115,9 +115,9 @@ export const CyberGridBackground = () => {
         for (let i = 0; i < this.trail.length; i++) {
           const point = this.trail[i];
           const alpha = i / this.trail.length;
-          ctx.fillStyle = this.color === "#ffffff" ? `rgba(255, 255, 255, ${alpha})` : 
-                          this.color === "#24dbe7" ? `rgba(36, 219, 231, ${alpha})` : 
-                          `rgba(47, 124, 246, ${alpha})`;
+          ctx.fillStyle = this.color === "#111111" ? `rgba(17, 17, 17, ${alpha})` : 
+                          this.color === "#C6B28A" ? `rgba(198, 178, 138, ${alpha})` : 
+                          `rgba(85, 98, 74, ${alpha})`;
           ctx.fillRect(point.x, point.y, 1.5, 1.5);
         }
       }
@@ -187,13 +187,13 @@ export const CyberGridBackground = () => {
       draw() {
         if (!ctx) return;
         const alpha = Math.max(0, 1 - this.radius / this.maxRadius);
-        ctx.strokeStyle = `rgba(255, 255, 255, ${alpha})`;
+        ctx.strokeStyle = `rgba(17, 17, 17, ${alpha})`;
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
         ctx.stroke();
 
         if (Math.random() < 0.2) {
-          ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
+          ctx.fillStyle = `rgba(17, 17, 17, ${alpha})`;
           ctx.font = "14px monospace";
           const char = characters[Math.floor(Math.random() * characters.length)];
           ctx.fillText(

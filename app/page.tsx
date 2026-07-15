@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 /**
  * SECTION 1 — Hero
@@ -9,48 +9,58 @@
  * SECTION 3 — Services:     components/ServicesSection.tsx  (CSS → app/globals.css)
  * SECTION 4 — HyperScroll:  components/HyperScrollSection.tsx  (CSS inline)
  * SECTION 5 — Text reveal: components/TextRevealSection.tsx  (CSS inline)
- * SECTION 6 — Featured:     components/FeaturedWorkSection.tsx  (CSS → globals + inline)
- * SECTION 7 — Contact+form: components/ContactSection.tsx  (CSS inline)
+ * SECTION 6 — Featured title: components/FeaturedWorkSection.tsx (headline only)
+ * SECTION 7 — Contact morph:  components/ContactMorphSection.tsx
  * SECTION 8 — Footer:       components/SiteFooter.tsx
  */
 
-import { useEffect, useState } from "react";
-import { motion, useAnimation } from "motion/react";
+import { useCallback, useEffect, useState } from "react";
+import { motion } from "motion/react";
 import { TextHoverEffect } from "@/components/ui/text-hover-effect";
-import { Header } from "@/components/Header";
 import { CyberGridBackground } from "@/components/CyberGridBackground";
 import { WireSection } from "@/components/WireSection";
 import { ServicesSection } from "@/components/ServicesSection";
 import { HyperScrollSection } from "@/components/HyperScrollSection";
 import { TextRevealSection } from "@/components/TextRevealSection";
 import { FeaturedWorkSection } from "@/components/FeaturedWorkSection";
-import { ContactSection } from "@/components/ContactSection";
+import { ContactMorphSection } from "@/components/ContactMorphSection";
+import { SoftLightGrid } from "@/components/SoftLightGrid";
+import { SiteFooter } from "@/components/SiteFooter";
+import { SiteScrollProgress } from "@/components/SiteScrollProgress";
+import { LoadingGate, type IntroMode } from "@/components/LoadingGate";
+
+type CineStep = 0 | 1 | 2 | 3;
 
 export default function Home() {
-  const controls = useAnimation();
-  const taglineControls = useAnimation();
   const [servicesMode, setServicesMode] = useState(false);
+  const [intro, setIntro] = useState<{ ready: boolean; mode: IntroMode }>({
+    ready: false,
+    mode: "normal",
+  });
+  const [cineStep, setCineStep] = useState<CineStep>(0);
 
+  const onLoaderReady = useCallback((mode: IntroMode) => {
+    setIntro({ ready: true, mode });
+  }, []);
+
+  // Cinematic steps only after full loading screen
   useEffect(() => {
-    let cancelled = false;
-    (async () => {
-      await new Promise((r) => setTimeout(r, 800));
-      if (cancelled) return;
-      await controls.start({
-        y: -50,
-        transition: { duration: 1.2, ease: [0.22, 1, 0.36, 1] },
-      });
-      if (cancelled) return;
-      await taglineControls.start({
-        opacity: 1,
-        y: 0,
-        transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] },
-      });
-    })();
+    if (!intro.ready) return;
+    if (intro.mode !== "cinematic") {
+      setCineStep(3);
+      return;
+    }
+
+    setCineStep(0);
+    const t1 = window.setTimeout(() => setCineStep(1), 40);
+    const t2 = window.setTimeout(() => setCineStep(2), 1200);
+    const t3 = window.setTimeout(() => setCineStep(3), 2300);
     return () => {
-      cancelled = true;
+      window.clearTimeout(t1);
+      window.clearTimeout(t2);
+      window.clearTimeout(t3);
     };
-  }, [controls, taglineControls]);
+  }, [intro.ready, intro.mode]);
 
   useEffect(() => {
     const services = document.getElementById("services");
@@ -71,40 +81,69 @@ export default function Home() {
     };
   }, []);
 
+  const brandHidden = !intro.ready || servicesMode;
+  const brandAnimate = brandHidden
+    ? { opacity: 0, y: intro.ready ? -42 : 28, scale: 1 }
+    : intro.mode === "normal" || cineStep >= 2
+      ? { opacity: 1, y: -42, scale: 1 }
+      : cineStep >= 1
+        ? { opacity: 1, y: 0, scale: 1 }
+        : { opacity: 0, y: 36, scale: 0.94 };
+
+  const taglineAnimate =
+    intro.ready && !servicesMode && (intro.mode === "normal" || cineStep >= 3)
+      ? { opacity: 1, y: 0 }
+      : { opacity: 0, y: 18 };
+
   return (
-    <main className="relative w-full max-w-[100vw] overflow-x-hidden bg-[#0b1230]">
-      <Header servicesMode={servicesMode} />
+    <LoadingGate onReady={onLoaderReady}>
+    <main className="relative w-full max-w-[100vw] overflow-x-hidden bg-[#E6E2D6]">
+      {/* Fixed progress: Wire → end of page (HUD-style bottom bar) */}
+      <SiteScrollProgress />
 
       {/* ═══════════════════════════════════════════
           SECTION 1 — Hero (BAKRY LLC)
           files: app/page.tsx · CyberGridBackground.tsx · ui/text-hover-effect.tsx
+          Header temporarily removed
       ═══════════════════════════════════════════ */}
-      <section className="relative flex min-h-[100svh] w-full flex-col overflow-hidden">
+      <section className="relative flex min-h-[100svh] w-full flex-col overflow-hidden select-none [&_*]:select-none">
         <div className="pointer-events-none absolute inset-0 z-0">
           <CyberGridBackground />
         </div>
-        <div className="relative z-10 flex min-h-[100svh] w-full flex-col items-center justify-center px-4 pb-8 pt-24 sm:px-6 md:pt-28">
+        <div className="relative z-10 flex min-h-[100svh] w-full flex-col items-center justify-center px-4 py-8 sm:px-6">
           <motion.div
-            animate={controls}
-            initial={{ y: 0 }}
-            className={`flex w-full flex-col items-center justify-center transition-opacity duration-500 ${
-              servicesMode ? "opacity-0" : "opacity-100"
-            }`}
+            initial={false}
+            animate={brandAnimate}
+            transition={
+              intro.mode === "normal"
+                ? { duration: 0.35, ease: [0.22, 1, 0.36, 1] }
+                : { duration: 1.05, ease: [0.22, 1, 0.36, 1] }
+            }
+            className="flex w-full flex-col items-center justify-center"
           >
             <div className="h-[min(45vw,200px)] w-full min-h-[160px] max-w-5xl sm:h-[220px] md:h-[280px] lg:h-[300px]">
               <TextHoverEffect text="BAKRY LLC" />
             </div>
             <motion.div
-              initial={{ opacity: 0, y: 18 }}
-              animate={taglineControls}
+              initial={false}
+              animate={taglineAnimate}
+              transition={
+                intro.mode === "normal"
+                  ? { duration: 0.3, ease: [0.22, 1, 0.36, 1] }
+                  : { duration: 0.85, ease: [0.22, 1, 0.36, 1] }
+              }
               className="mt-4 flex flex-col items-center gap-2"
             >
-              <p className="max-w-xl text-center text-[10px] tracking-[0.16em] text-white/70 uppercase sm:text-sm sm:tracking-[0.2em] md:text-base">
+              <p className="max-w-xl text-center text-[10px] tracking-[0.16em] text-[#2A2A2A] uppercase sm:text-sm sm:tracking-[0.2em] md:text-base">
                 Web • Mobile • SaaS • Automation
               </p>
-              <p className="text-center text-[9px] tracking-[0.22em] text-cyan uppercase sm:text-xs sm:tracking-[0.28em] md:text-sm">
+              <p className="text-center text-[9px] tracking-[0.22em] text-[#55624A] uppercase sm:text-xs sm:tracking-[0.28em] md:text-sm">
                 Design. Develop. Scale.
               </p>
+              <span
+                aria-hidden
+                className="mt-1 h-1.5 w-1.5 rounded-sm bg-[#C6B28A]"
+              />
             </motion.div>
           </motion.div>
         </div>
@@ -136,19 +175,43 @@ export default function Home() {
       ═══════════════════════════════════════════ */}
       <TextRevealSection />
 
-      {/* ═══════════════════════════════════════════
-          SECTION 6 — Featured Work
-          file: components/FeaturedWorkSection.tsx
-          styles: inline + app/globals.css (.featured-work-section)
-      ═══════════════════════════════════════════ */}
-      <FeaturedWorkSection />
+      {/* Soft Light band — one shared fixed grid behind Featured Work + Contact */}
+      <div id="soft-light-band" className="soft-light-band relative">
+        <style>{`
+          .soft-light-band {
+            --soft-cell-w: 12.5vw;
+            --soft-cell-h: 12.5svh;
+            --soft-grid-line: rgba(17, 17, 17, 0.1);
+            --soft-grid-bg:
+              linear-gradient(to right, var(--soft-grid-line) 1px, transparent 1px),
+              linear-gradient(to bottom, var(--soft-grid-line) 1px, transparent 1px);
+            background-color: #E6E2D6;
+            background-image: var(--soft-grid-bg);
+            background-size: var(--soft-cell-w) var(--soft-cell-h);
+            background-position: 0 0;
+            background-repeat: repeat;
+            background-attachment: fixed;
+          }
+
+          @media (max-width: 760px) {
+            /* Phone: one repeating grid on the band — no fixed, no overlay */
+            .soft-light-band {
+              background-attachment: scroll;
+              background-repeat: repeat;
+            }
+          }
+        `}</style>
+        <SoftLightGrid />
+        <FeaturedWorkSection />
+        <ContactMorphSection />
+      </div>
 
       {/* ═══════════════════════════════════════════
-          SECTION 7 — Contact story + form + footer
-          file: components/ContactSection.tsx  ·  styles: inline
-          footer: components/SiteFooter.tsx
+          SECTION 8 — Site footer
+          file: components/SiteFooter.tsx
       ═══════════════════════════════════════════ */}
-      <ContactSection />
+      <SiteFooter />
     </main>
+    </LoadingGate>
   );
 }

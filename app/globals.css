@@ -1,4 +1,4 @@
-@import "tailwindcss";
+﻿@import "tailwindcss";
 
 /* View-transition CSS removed — transitions were freezing the page over LAN. */
 
@@ -10,19 +10,28 @@
 }
 
 :root {
-  --navy: #0b1230;
-  --cyan: #24dbe7;
-  --blue: #2f7cf6;
-  --purple: #7a3af9;
-  --soft: #f4f7fb;
+  /* Bakry LLC brand — Warm Ivory system */
+  --jet: #111111;
+  --charcoal: #2a2a2a;
+  --ivory: #e6e2d6;
+  --sand: #c6b28a;
+  --olive: #55624a;
+
+  /* Legacy aliases (old navy/cyan/blue/purple/soft) */
+  --navy: var(--jet);
+  --cyan: var(--sand);
+  --blue: var(--olive);
+  --purple: var(--olive);
+  --soft: var(--ivory);
   --white: #ffffff;
-  --gradient-brand: linear-gradient(90deg, #24dbe7, #2f7cf6, #7a3af9);
+
+  --gradient-brand: linear-gradient(90deg, #c6b28a, #55624a, #2a2a2a);
 
   /* Compat aliases used across services / legacy styles */
-  --bg: var(--navy);
-  --y: var(--cyan);
-  --o: var(--blue);
-  --g: var(--purple);
+  --bg: var(--ivory);
+  --y: var(--sand);
+  --o: var(--olive);
+  --g: var(--olive);
 
   --elastic: cubic-bezier(0.175, 0.885, 0.32, 1.275);
   --expo: cubic-bezier(1, 0.885, 0.32, 1);
@@ -42,10 +51,15 @@ html::-webkit-scrollbar {
 }
 
 body {
-  background-color: var(--navy);
-  color: var(--white);
+  background-color: var(--ivory);
+  color: var(--jet);
   scrollbar-width: none;
   -ms-overflow-style: none;
+}
+
+html.bk-loader-active,
+html.bk-loader-active body {
+  overflow: hidden;
 }
 
 body::-webkit-scrollbar {
@@ -105,11 +119,16 @@ html.custom-cursor-on .services-thumb .inner {
 }
 
 @theme inline {
-  --color-navy: #0b1230;
-  --color-cyan: #24dbe7;
-  --color-blue: #2f7cf6;
-  --color-purple: #7a3af9;
-  --color-soft: #f4f7fb;
+  --color-navy: #111111;
+  --color-jet: #111111;
+  --color-charcoal: #2a2a2a;
+  --color-ivory: #e6e2d6;
+  --color-sand: #c6b28a;
+  --color-olive: #55624a;
+  --color-cyan: #c6b28a;
+  --color-blue: #55624a;
+  --color-purple: #55624a;
+  --color-soft: #e6e2d6;
   --animate-cell-ripple: cell-ripple var(--duration, 200ms) ease-out none 1 var(--delay, 0ms);
   @keyframes cell-ripple {
     0% { opacity: 0.4; }
@@ -224,11 +243,11 @@ html.custom-cursor-on .services-thumb .inner {
   top: 50%;
   transform: translate(-50%, 150%);
   content: attr(data-word);
-  color: var(--g);
+  color: var(--jet);
   -webkit-text-fill-color: transparent;
-  -webkit-text-stroke: 2px var(--g);
+  -webkit-text-stroke: 2px var(--jet);
   -webkit-background-clip: text;
-  background-image: linear-gradient(to bottom, var(--g) 50%, var(--bg) 50%);
+  background-image: linear-gradient(to bottom, var(--jet) 50%, var(--bg) 50%);
   background-size: 100% 200%;
   background-position: 50% 100%;
   transition: 0.75s var(--elastic), background-position 0.5s var(--expo);
@@ -287,8 +306,8 @@ html.custom-cursor-on .services-thumb .inner {
   left: 0;
   justify-content: flex-start;
   align-items: center;
-  color: var(--bg);
-  -webkit-text-stroke: 2px var(--y);
+  color: transparent;
+  -webkit-text-stroke: 2px rgba(17, 17, 17, 0.18);
   line-height: 1;
   opacity: 0;
   transition: 1.75s ease-in-out;
@@ -692,7 +711,7 @@ html.services-overlay-open body * {
 .featured-work-section .featured-work-link:hover,
 .featured-work-section .featured-work-link:focus-visible {
   transform: scale(1.02);
-  box-shadow: 0 0 0 2px var(--cyan, #24dbe7);
+  box-shadow: 0 0 0 2px var(--cyan, #C6B28A);
 }
 
 .featured-work-section .featured-work-link img {
@@ -733,8 +752,8 @@ html.services-overlay-open body * {
   left: 0;
   right: 0;
   bottom: 0;
-  background: var(--navy);
-  color: white;
+  background: var(--ivory);
+  color: var(--jet);
   z-index: 9999;
 }
 

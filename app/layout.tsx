@@ -1,4 +1,4 @@
-import type { Metadata, Viewport } from "next";
+﻿import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Lexend_Mega } from "next/font/google";
 import { GlobalDotCursor } from "@/components/GlobalDotCursor";
 import { GsapScrollBootstrap } from "@/components/GsapScrollBootstrap";
@@ -30,7 +30,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
-  themeColor: "#0b1230",
+  themeColor: "#E6E2D6",
 };
 
 export default function RootLayout({

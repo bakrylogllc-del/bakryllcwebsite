@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import React, { useRef, useEffect, useState, useId } from "react";
 import { motion } from "motion/react";
 
@@ -65,9 +65,9 @@ export const TextHoverEffect = ({
         >
           {hovered && (
             <>
-              <stop offset="0%" stopColor="#24dbe7" />
-              <stop offset="50%" stopColor="#2f7cf6" />
-              <stop offset="100%" stopColor="#7a3af9" />
+              <stop offset="0%" stopColor="#C6B28A" />
+              <stop offset="50%" stopColor="#55624A" />
+              <stop offset="100%" stopColor="#2A2A2A" />
             </>
           )}
         </linearGradient>
@@ -98,7 +98,7 @@ export const TextHoverEffect = ({
         strokeWidth="0.5"
         //fontSize ثابت، الفونت مش هيتمط بزيادة
         fontSize="36" 
-        className="fill-transparent stroke-neutral-700 font-sans font-bold"
+        className="fill-transparent stroke-[#111111] font-sans font-bold"
         style={{ opacity: hovered ? 0.7 : 0 }}
       >
         {text}
@@ -111,7 +111,7 @@ export const TextHoverEffect = ({
         dominantBaseline="middle"
         strokeWidth="0.5"
         fontSize="36"
-        className="fill-transparent stroke-neutral-700 font-sans font-bold"
+        className="fill-transparent stroke-[#111111] font-sans font-bold"
         initial={{ strokeDashoffset: 1000, strokeDasharray: 1000 }}
         animate={{ strokeDashoffset: 0, strokeDasharray: 1000 }}
         transition={{ duration: 4, ease: "easeInOut" }}

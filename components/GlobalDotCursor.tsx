@@ -32,12 +32,12 @@ export function GlobalDotCursor() {
     const pos = { x: -100, y: -100 };
     const mouse = { x: -100, y: -100 };
 
-    const onMove = (e: MouseEvent) => {
+    const showAt = (x: number, y: number) => {
       if (document.documentElement.classList.contains("services-overlay-open")) {
         return;
       }
-      mouse.x = e.clientX;
-      mouse.y = e.clientY;
+      mouse.x = x;
+      mouse.y = y;
       if (!shown) {
         shown = true;
         pos.x = mouse.x;
@@ -45,6 +45,10 @@ export function GlobalDotCursor() {
         dot.style.opacity = "1";
         document.documentElement.classList.add("custom-cursor-on");
       }
+    };
+
+    const onMove = (e: MouseEvent) => {
+      showAt(e.clientX, e.clientY);
     };
 
     const onLeaveWindow = (e: MouseEvent) => {
@@ -71,6 +75,62 @@ export function GlobalDotCursor() {
       rafId = window.requestAnimationFrame(tick);
     };
 
+    /** Same-origin iframes (contact morph) — map local coords to parent viewport */
+    const iframeCleanups = new Map<HTMLIFrameElement, () => void>();
+    const watchedFrames = new WeakSet<HTMLIFrameElement>();
+
+    const hideNativeCursor = (doc: Document) => {
+      const styleId = "bakry-hide-native-cursor";
+      if (doc.getElementById(styleId)) return;
+      const style = doc.createElement("style");
+      style.id = styleId;
+      style.textContent = `
+        html, body, body * { cursor: none !important; }
+      `;
+      doc.head.appendChild(style);
+    };
+
+    const bindIframe = (iframe: HTMLIFrameElement) => {
+      // Re-bind on every load (srcDoc documents are replaced)
+      iframeCleanups.get(iframe)?.();
+      iframeCleanups.delete(iframe);
+      try {
+        const doc = iframe.contentDocument;
+        if (!doc?.defaultView) return;
+
+        hideNativeCursor(doc);
+
+        const onIframeMove = (e: MouseEvent) => {
+          const rect = iframe.getBoundingClientRect();
+          showAt(e.clientX + rect.left, e.clientY + rect.top);
+        };
+
+        doc.addEventListener("mousemove", onIframeMove, { passive: true });
+        iframeCleanups.set(iframe, () => {
+          doc.removeEventListener("mousemove", onIframeMove);
+        });
+      } catch {
+        // cross-origin — skip
+      }
+    };
+
+    const scanIframes = () => {
+      document.querySelectorAll<HTMLIFrameElement>("iframe").forEach((frame) => {
+        if (!watchedFrames.has(frame)) {
+          watchedFrames.add(frame);
+          frame.addEventListener("load", () => bindIframe(frame));
+        }
+        if (frame.contentDocument?.readyState === "complete") {
+          bindIframe(frame);
+        }
+      });
+    };
+
+    scanIframes();
+    const mo = new MutationObserver(() => scanIframes());
+    mo.observe(document.body, { childList: true, subtree: true });
+    window.addEventListener("bakry:iframe-cursor", scanIframes as EventListener);
+
     window.addEventListener("mousemove", onMove, { passive: true });
     document.documentElement.addEventListener("mouseleave", onLeaveWindow);
     rafId = window.requestAnimationFrame(tick);
@@ -79,6 +139,10 @@ export function GlobalDotCursor() {
       running = false;
       window.removeEventListener("mousemove", onMove);
       document.documentElement.removeEventListener("mouseleave", onLeaveWindow);
+      window.removeEventListener("bakry:iframe-cursor", scanIframes as EventListener);
+      mo.disconnect();
+      iframeCleanups.forEach((fn) => fn());
+      iframeCleanups.clear();
       window.cancelAnimationFrame(rafId);
       document.documentElement.classList.remove("custom-cursor-on");
     };

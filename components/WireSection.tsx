@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 /**
  * SECTION 2 — Wire cards
@@ -92,7 +92,7 @@ export function WireSection() {
 
         .ws-root {
           --sdo: 0;
-          background: #0b1230;
+          background: #E6E2D6;
           position: relative;
           width: 100%;
           /* Clip X and Y so scaled wire/cards never bleed into Services */
@@ -140,7 +140,7 @@ export function WireSection() {
           inset: 0;
           border-radius: 20px;
           padding: 1.5px;
-          background: linear-gradient(135deg, #24dbe7, #2f7cf6, #7a3af9);
+          background: linear-gradient(135deg, #C6B28A, #55624A, #55624A);
           -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
           mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
           -webkit-mask-composite: xor;
@@ -157,7 +157,7 @@ export function WireSection() {
           border-radius: 20px;
           overflow: hidden;
           /* subtle glass layer to blur wires behind the card */
-          background: rgba(11, 18, 48, 0.08);
+          background: rgba(17, 17, 17, 0.08);
           backdrop-filter: blur(4px);
           -webkit-backdrop-filter: blur(4px);
           display: flex;
@@ -172,7 +172,7 @@ export function WireSection() {
           content: "";
           position: absolute;
           inset: 0;
-          background: radial-gradient(ellipse at 50% 40%, rgba(36,219,231,0.18) 0%, transparent 70%);
+          background: radial-gradient(ellipse at 50% 40%, rgba(198, 178, 138,0.18) 0%, transparent 70%);
           border-radius: 20px;
           opacity: 0;
           transition: opacity 0.4s ease;
@@ -195,7 +195,7 @@ export function WireSection() {
           font-weight: 600;
           line-height: 1.3;
           text-align: center;
-          background: linear-gradient(-45deg, #24dbe7 0%, #2f7cf6 40%, #7a3af9 100%);
+          background: linear-gradient(-45deg, #C6B28A 0%, #55624A 40%, #55624A 100%);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
@@ -212,7 +212,7 @@ export function WireSection() {
           white-space: pre;
           text-align: left;
           width: 100%;
-          background: linear-gradient(45deg, #24dbe7 0%, #2f7cf6 50%, #7a3af9 100%);
+          background: linear-gradient(45deg, #C6B28A 0%, #55624A 50%, #55624A 100%);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
@@ -227,7 +227,7 @@ export function WireSection() {
           font-size: 10px;
           letter-spacing: 0.25em;
           text-transform: uppercase;
-          color: rgba(244,247,251,0.5);
+          color: rgba(42, 42, 42, 0.7);
           margin-top: 12px;
         }
 
@@ -323,9 +323,9 @@ export function WireSection() {
           >
             <defs>
               <linearGradient id="ws-grad" x1="0" y1="0" x2="1" y2="1" gradientUnits="objectBoundingBox">
-                <stop offset="0%"   stopColor="#24dbe7" />
-                <stop offset="50%"  stopColor="#2f7cf6" />
-                <stop offset="100%" stopColor="#7a3af9" />
+                <stop offset="0%"   stopColor="#C6B28A" />
+                <stop offset="50%"  stopColor="#55624A" />
+                <stop offset="100%" stopColor="#55624A" />
               </linearGradient>
             </defs>
 

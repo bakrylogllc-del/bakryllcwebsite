@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 /**
  * SECTION 7 — Contact (scroll story + form) + mounts SECTION 8 footer
@@ -428,7 +428,7 @@ export function ContactSection() {
         .cp-after-contact {
           position: relative;
           z-index: 2;
-          background: #0b1230;
+          background: #111111;
         }
 
         /* Titles */
@@ -450,7 +450,7 @@ export function ContactSection() {
           text-align: center;
         }
         .cp-hero__title--2 {
-          color: #0b1230;
+          color: #111111;
           -webkit-text-stroke: 1px white;
           margin-top: 0;
           margin-bottom: 0.75rem;
@@ -496,7 +496,7 @@ export function ContactSection() {
           z-index: 0;
         }
         .cp-ring--left {
-          border: 50px solid #24dbe7;
+          border: 50px solid #C6B28A;
           width: 300px;
           height: 300px;
           left: -200px;
@@ -561,7 +561,7 @@ export function ContactSection() {
           left: 0;
           width: 40%;
           height: 3px;
-          background-color: #24dbe7;
+          background-color: #C6B28A;
           transform-origin: left center;
         }
 
@@ -592,17 +592,17 @@ export function ContactSection() {
         }
         .cp-card-1 {
           z-index: 1;
-          background-color: #0b1230;
+          background-color: #111111;
           background-image: url("/contact-card-1.png");
         }
         .cp-card-2 {
           z-index: 3;
-          background-color: #2f7cf6;
+          background-color: #55624A;
           background-image: url("/contact-card-2.png");
         }
         .cp-card-3 {
           z-index: 2;
-          background-color: #7a3af9;
+          background-color: #55624A;
           background-image: url("/contact-card-3.png");
         }
 
@@ -627,7 +627,7 @@ export function ContactSection() {
           text-decoration: none;
           border-radius: 999px;
           background-color: white;
-          color: #0b1230;
+          color: #111111;
           font-family: inherit;
           border: 0;
           padding: 1em 3em;
@@ -642,7 +642,7 @@ export function ContactSection() {
           transition: color .25s ease, background-color .25s ease;
         }
         .cp-footer__button:hover {
-          background: linear-gradient(90deg, #24dbe7, #2f7cf6, #7a3af9);
+          background: linear-gradient(90deg, #C6B28A, #55624A, #55624A);
           color: #fff;
         }
         .cp-footer__copy {
@@ -687,7 +687,7 @@ export function ContactSection() {
         }
       `}</style>
 
-      <div ref={sectionRef} id="contact" className="relative w-full overflow-x-clip bg-[#0b1230]">
+      <div ref={sectionRef} id="contact" className="relative w-full overflow-x-clip bg-[#111111]">
 
         {/* Custom cursor */}
         <div className="cp-cursor" aria-hidden />
@@ -745,7 +745,7 @@ export function ContactSection() {
                 height="56"
                 viewBox="0 0 24 24"
                 fill="none"
-                stroke="#24dbe7"
+                stroke="#C6B28A"
                 strokeWidth="1"
                 strokeLinecap="round"
                 strokeLinejoin="round"

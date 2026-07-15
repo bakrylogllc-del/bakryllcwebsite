@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
@@ -22,7 +22,7 @@ export function Header({ servicesMode = false }: { servicesMode?: boolean }) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
       className={`fixed left-0 right-0 top-0 z-50 w-full backdrop-blur-md transition-colors duration-400 ${
-        servicesMode ? "border-b border-white/0 bg-[#0b1230]/55" : "border-b border-white/5 bg-[#0b1230]/90"
+        servicesMode ? "border-b border-[#111111]/0 bg-[#E6E2D6]/55" : "border-b border-[#111111]/10 bg-[#E6E2D6]/90"
       }`}
     >
       <div className="relative flex h-16 w-full items-center justify-between pl-1.5 pr-4 sm:pl-2 sm:pr-5 md:h-[4.5rem] md:pl-2 md:pr-6 lg:pl-3">
@@ -46,9 +46,9 @@ export function Header({ servicesMode = false }: { servicesMode?: boolean }) {
             <motion.a
               key={item.label}
               href={item.href}
-              whileHover={{ y: -2, color: "#ffffff" }}
+              whileHover={{ y: -2, color: "#111111" }}
               transition={{ type: "spring", stiffness: 320, damping: 20 }}
-              className="text-sm font-medium text-neutral-400"
+              className="text-sm font-medium text-[#2A2A2A]"
             >
               {item.label}
             </motion.a>
@@ -58,7 +58,7 @@ export function Header({ servicesMode = false }: { servicesMode?: boolean }) {
         <div className={`flex w-10 items-center justify-end transition-opacity duration-300 md:w-[200px] ${servicesMode ? "pointer-events-none opacity-0" : "opacity-100"}`}>
           <motion.button
             type="button"
-            className="rounded-lg border border-white/10 p-2 text-white md:hidden"
+            className="rounded-lg border border-[#111111]/15 p-2 text-[#111111] md:hidden"
             aria-expanded={mobileOpen}
             aria-controls="mobile-nav"
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
@@ -87,14 +87,14 @@ export function Header({ servicesMode = false }: { servicesMode?: boolean }) {
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className="overflow-hidden border-t border-white/5 bg-[#0b1230] md:hidden"
+            className="overflow-hidden border-t border-[#111111]/10 bg-[#E6E2D6] md:hidden"
           >
             <ul className="flex flex-col gap-1 px-2 pb-4 pl-[max(0.5rem,env(safe-area-inset-left))] pr-[max(1rem,env(safe-area-inset-right))] pt-1 sm:px-3">
               {navItems.map((item) => (
                 <li key={item.label}>
                   <a
                     href={item.href}
-                    className="block rounded-lg py-3 text-sm font-medium text-neutral-300 transition-colors hover:bg-white/5 hover:text-white"
+                    className="block rounded-lg py-3 text-sm font-medium text-[#2A2A2A] transition-colors hover:bg-[#111111]/5 hover:text-[#111111]"
                     onClick={() => setMobileOpen(false)}
                   >
                     {item.label}

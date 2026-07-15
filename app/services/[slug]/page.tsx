@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -50,19 +50,19 @@ export default function ServiceEmbedPage() {
   const s = DATA[key];
 
   return (
-    <main className="min-h-screen w-full overflow-auto bg-[#0b1230] p-6 text-white sm:p-8">
+    <main className="min-h-screen w-full overflow-auto bg-[#E6E2D6] p-6 text-[#111111] sm:p-8">
       {isTopWindow === true ? (
-        <p className="mb-4 text-sm text-neutral-500">
-          <Link href="/" className="text-cyan hover:text-white">
+        <p className="mb-4 text-sm text-[#2A2A2A]/70">
+          <Link href="/" className="text-[#55624A] hover:text-[#111111]">
             Home
           </Link>
         </p>
       ) : null}
-      <div className="mb-6 overflow-hidden rounded-lg border border-white/10">
+      <div className="mb-6 overflow-hidden rounded-lg border border-[#111111]/15">
         <img src={s.img} alt="" className="h-40 w-full object-cover sm:h-48" />
       </div>
       <h1 className="text-2xl font-semibold sm:text-3xl">{s.title}</h1>
-      <p className="mt-3 max-w-prose text-neutral-400">{s.description}</p>
+      <p className="mt-3 max-w-prose text-[#2A2A2A]">{s.description}</p>
     </main>
   );
 }

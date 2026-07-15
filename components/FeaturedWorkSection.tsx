@@ -1,296 +1,606 @@
-"use client";
+﻿"use client";
 
 /**
  * SECTION 6 — Featured Work
- * Styles: this file + app/globals.css (.featured-work-section)
+ * Brutalist Cases gallery (Bakry colors) with title at the top of the same page.
+ * Desktop: ScrollTrigger pin advances projects (no snap).
+ * Phone: no GSAP — tap list / swipe cards; normal page scroll.
  * See SECTIONS.md
- *
- * How to swap in real work:
- * 1. Drop screenshots in /public/featured/ (1240×874 or 2480×1748)
- * 2. Set `image` to "/featured/your-file.jpg"
- * 3. Set `href` to the live site URL — click opens in a new tab
  */
 
-import React, { useEffect, useLayoutEffect, useRef } from "react";
+import React, { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { motion } from "motion/react";
-import { TextHoverEffect } from "@/components/ui/text-hover-effect";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const w = 1240;
-const h = 874;
-
-type FeaturedProject = {
-  title: string;
-  /** Live site — opens in a new tab */
-  href: string;
-  /** Screenshot path under /public or remote URL */
-  image: string;
-};
-
-/**
- * 4 rows × 4 projects. Replace image + href for each when you have screenshots.
- * Example:
- *   { title: "Acme", href: "https://acme.com", image: "/featured/acme.jpg" }
- */
-const GALLERIES: FeaturedProject[][] = [
-  [
-    {
-      title: "Project 01",
-      href: "https://example.com",
-      image: `https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=${w}&h=${h}&fit=crop&q=80`,
-    },
-    {
-      title: "Project 02",
-      href: "https://example.com",
-      image: `https://images.unsplash.com/photo-1498050108023-c419941f0af2?w=${w}&h=${h}&fit=crop&q=80`,
-    },
-    {
-      title: "Project 03",
-      href: "https://example.com",
-      image: `https://images.unsplash.com/photo-1551650975-87deedd944c3?w=${w}&h=${h}&fit=crop&q=80`,
-    },
-    {
-      title: "Project 04",
-      href: "https://example.com",
-      image: `https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=${w}&h=${h}&fit=crop&q=80`,
-    },
-  ],
-  [
-    {
-      title: "Project 05",
-      href: "https://example.com",
-      image: `https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=${w}&h=${h}&fit=crop&q=80`,
-    },
-    {
-      title: "Project 06",
-      href: "https://example.com",
-      image: `https://images.unsplash.com/photo-1547658719-da2b51169166?w=${w}&h=${h}&fit=crop&q=80`,
-    },
-    {
-      title: "Project 07",
-      href: "https://example.com",
-      image: `https://images.unsplash.com/photo-1558655146-d09347e92766?w=${w}&h=${h}&fit=crop&q=80`,
-    },
-    {
-      title: "Project 08",
-      href: "https://example.com",
-      image: `https://images.unsplash.com/photo-1467232004584-a24160f0373c?w=${w}&h=${h}&fit=crop&q=80`,
-    },
-  ],
-  [
-    {
-      title: "Project 09",
-      href: "https://example.com",
-      image: `https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=${w}&h=${h}&fit=crop&q=80`,
-    },
-    {
-      title: "Project 10",
-      href: "https://example.com",
-      image: `https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=${w}&h=${h}&fit=crop&q=80`,
-    },
-    {
-      title: "Project 11",
-      href: "https://example.com",
-      image: `https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=${w}&h=${h}&fit=crop&q=80`,
-    },
-    {
-      title: "Project 12",
-      href: "https://example.com",
-      image: `https://images.unsplash.com/photo-1504639725590-34d0984388bd?w=${w}&h=${h}&fit=crop&q=80`,
-    },
-  ],
-  [
-    {
-      title: "Project 13",
-      href: "https://example.com",
-      image: `https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=${w}&h=${h}&fit=crop&q=80`,
-    },
-    {
-      title: "Project 14",
-      href: "https://example.com",
-      image: `https://images.unsplash.com/photo-1581291518633-83b4ebd1d83c?w=${w}&h=${h}&fit=crop&q=80`,
-    },
-    {
-      title: "Project 15",
-      href: "https://example.com",
-      image: `https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=${w}&h=${h}&fit=crop&q=80`,
-    },
-    {
-      title: "Project 16",
-      href: "https://example.com",
-      image: `https://images.unsplash.com/photo-1559028012-481c04fa702d?w=${w}&h=${h}&fit=crop&q=80`,
-    },
-  ],
+/* ============================================================
+   EDIT THIS ARRAY — one entry per project.
+   name : shows in the right-hand list
+   img  : preview image (replace with your own screenshot URL)
+   url  : the live website this project should open when clicked
+   ============================================================ */
+const projects = [
+  {
+    name: "Valente",
+    img: "https://placehold.co/800x800/111111/E6E2D6?text=VALENTE",
+    url: "https://example.com/valente",
+  },
+  {
+    name: "Bakry LLC",
+    img: "https://placehold.co/800x800/111111/E6E2D6?text=BAKRY+LLC",
+    url: "https://example.com/bakry",
+  },
+  {
+    name: "Kayan",
+    img: "https://placehold.co/800x800/111111/E6E2D6?text=KAYAN",
+    url: "https://example.com/kayan",
+  },
+  {
+    name: "Gateway Intl",
+    img: "https://placehold.co/800x800/111111/E6E2D6?text=GATEWAY",
+    url: "https://example.com/gateway",
+  },
 ];
 
 export function FeaturedWorkSection() {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const demoInitRef = useRef(false);
+  const sectionRef = useRef<HTMLElement>(null);
+  const casesRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
-    const root = sectionRef.current;
-    if (!root) return;
+    const section = sectionRef.current;
+    const root = casesRef.current;
+    if (!section || !root) return;
 
-    const cleanups: Array<() => void> = [];
-    let fallbackId: number | undefined;
+    const stackWrap = root.querySelector<HTMLElement>("#stackWrap");
+    const listWrap = root.querySelector<HTMLElement>("#listWrap");
+    if (!stackWrap || !listWrap) return;
 
-    const ctx = gsap.context(() => {
-      const runScrollAnimations = () => {
-        if (demoInitRef.current || !root.isConnected) return;
-        demoInitRef.current = true;
+    stackWrap.innerHTML = "";
+    listWrap.innerHTML = "";
 
-        const sections = gsap.utils.toArray<HTMLElement>(
-          "section.demo-gallery, section.demo-text:not(.demo-text--static)",
-          root
-        );
+    let activeIndex = 0;
+    const mq = window.matchMedia("(max-width: 760px)");
 
-        const isMobile = window.matchMedia("(max-width: 900px)").matches;
+    projects.forEach((p, i) => {
+      const a = document.createElement("a");
+      a.className = "card";
+      a.href = p.url;
+      a.target = "_blank";
+      a.rel = "noopener";
+      a.dataset.index = String(i);
+      a.innerHTML = `
+        <span class="tag">${String(i + 1).padStart(2, "0")}</span>
+        <img src="${p.img}" alt="${p.name}">
+        <span class="visit">Visit site →</span>
+      `;
+      stackWrap.appendChild(a);
+    });
 
-        sections.forEach((section, index) => {
-          const wrap = section.querySelector<HTMLElement>(".wrapper");
-          if (!wrap) return;
+    projects.forEach((p, i) => {
+      const item = document.createElement("div");
+      item.className = "list-item";
+      item.dataset.index = String(i);
+      item.innerHTML = `
+        <span class="idx">${String(i + 1).padStart(2, "0")}</span>
+        <span class="name">${p.name}</span>
+        <span class="arrow">→</span>
+      `;
+      listWrap.appendChild(item);
+    });
 
-          const maxShift = Math.max(0, wrap.scrollWidth - section.offsetWidth);
-          if (maxShift <= 0 && isMobile) return;
+    const cards = [...stackWrap.querySelectorAll<HTMLElement>(".card")];
+    const items = [...listWrap.querySelectorAll<HTMLElement>(".list-item")];
 
-          const [x, xEnd] =
-            index % 2 === 1
-              ? (["100%", -maxShift] as const)
-              : ([-maxShift, 0] as const);
+    function render() {
+      cards.forEach((card, i) => {
+        card.classList.remove("active", "behind-1", "behind-2", "hidden-far");
+        const offset = i - activeIndex;
+        if (offset === 0) card.classList.add("active");
+        else if (offset === -1) card.classList.add("behind-1");
+        else if (offset === 1) card.classList.add("behind-2");
+        else card.classList.add("hidden-far");
+      });
+      items.forEach((item, i) => {
+        item.classList.toggle("active", i === activeIndex);
+      });
+    }
 
-          gsap.fromTo(
-            wrap,
-            { x },
-            {
-              x: xEnd,
-              ease: "none",
-              scrollTrigger: {
-                trigger: section,
-                scrub: isMobile ? 0.4 : 0.75,
-                start: isMobile ? "top 92%" : "top 88%",
-                end: () =>
-                  `+=${Math.max(isMobile ? 280 : 520, section.offsetHeight * (isMobile ? 1.4 : 2.25))}`,
-                invalidateOnRefresh: true,
-                fastScrollEnd: true,
-              },
-            }
-          );
-        });
+    function setActive(i: number) {
+      activeIndex = Math.max(0, Math.min(projects.length - 1, i));
+      render();
+    }
 
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => ScrollTrigger.refresh());
-        });
-      };
+    const onEnter = (e: Event) => {
+      if (mq.matches) return;
+      const el = e.currentTarget as HTMLElement;
+      setActive(parseInt(el.dataset.index || "0", 10));
+    };
+    const onListClick = (e: Event) => {
+      const el = e.currentTarget as HTMLElement;
+      const i = parseInt(el.dataset.index || "0", 10);
+      if (mq.matches) {
+        // Phone: tap selects project (visit via the card link)
+        setActive(i);
+        return;
+      }
+      window.open(projects[i].url, "_blank", "noopener");
+    };
 
-      const tryInit = () => {
-        if (demoInitRef.current) return;
-        requestAnimationFrame(() => {
-          runScrollAnimations();
-        });
-      };
+    items.forEach((item) => {
+      item.addEventListener("mouseenter", onEnter);
+      item.addEventListener("click", onListClick);
+    });
 
-      const images = gsap.utils.toArray<HTMLImageElement>("img", root);
+    // Phone: swipe cards to change project — no scroll lock
+    let touchX = 0;
+    let touchY = 0;
+    const onTouchStart = (e: TouchEvent) => {
+      touchX = e.changedTouches[0].clientX;
+      touchY = e.changedTouches[0].clientY;
+    };
+    const onTouchEnd = (e: TouchEvent) => {
+      if (!mq.matches) return;
+      const dx = e.changedTouches[0].clientX - touchX;
+      const dy = e.changedTouches[0].clientY - touchY;
+      if (Math.abs(dx) < 48 || Math.abs(dx) < Math.abs(dy)) return;
+      setActive(activeIndex + (dx < 0 ? 1 : -1));
+    };
+    stackWrap.addEventListener("touchstart", onTouchStart, { passive: true });
+    stackWrap.addEventListener("touchend", onTouchEnd, { passive: true });
 
-      if (images.length === 0) {
-        tryInit();
+    render();
+
+    const steps = Math.max(1, projects.length - 1);
+    let st: ScrollTrigger | null = null;
+    let refreshTimer = 0;
+
+    const killPin = () => {
+      if (st) {
+        st.kill();
+        st = null;
+      }
+    };
+
+    const setupPin = () => {
+      killPin();
+      // Phone: no GSAP scroll — list tap / swipe only
+      if (mq.matches) {
+        ScrollTrigger.refresh();
         return;
       }
 
-      let loaded = 0;
-      const bump = () => {
-        loaded++;
-        if (loaded >= images.length) tryInit();
-      };
-
-      images.forEach((img) => {
-        const onDone = () => {
-          img.removeEventListener("load", onDone);
-          img.removeEventListener("error", onDone);
-          bump();
-        };
-        img.addEventListener("load", onDone);
-        img.addEventListener("error", onDone);
-        cleanups.push(() => {
-          img.removeEventListener("load", onDone);
-          img.removeEventListener("error", onDone);
-        });
-        if (img.complete) queueMicrotask(onDone);
+      st = ScrollTrigger.create({
+        trigger: section,
+        start: "top top",
+        end: () => `+=${Math.round(window.innerHeight * 0.55 * steps)}`,
+        pin: true,
+        pinSpacing: true,
+        scrub: 0.4,
+        anticipatePin: 0,
+        fastScrollEnd: true,
+        invalidateOnRefresh: true,
+        onUpdate: (self) => {
+          const idx = Math.min(
+            steps,
+            Math.max(0, Math.round(self.progress * steps)),
+          );
+          if (idx !== activeIndex) setActive(idx);
+        },
       });
+    };
 
-      fallbackId = window.setTimeout(() => {
-        if (!demoInitRef.current) tryInit();
-      }, 3500);
-    }, root);
+    setupPin();
+
+    const onMqChange = () => {
+      window.clearTimeout(refreshTimer);
+      refreshTimer = window.setTimeout(() => {
+        setupPin();
+        ScrollTrigger.refresh();
+      }, 50);
+    };
+    mq.addEventListener("change", onMqChange);
+
+    const tRefresh = window.setTimeout(() => ScrollTrigger.refresh(), 300);
 
     return () => {
-      if (fallbackId !== undefined) window.clearTimeout(fallbackId);
-      cleanups.forEach((fn) => fn());
-      ctx.revert();
-      demoInitRef.current = false;
+      window.clearTimeout(refreshTimer);
+      window.clearTimeout(tRefresh);
+      mq.removeEventListener("change", onMqChange);
+      stackWrap.removeEventListener("touchstart", onTouchStart);
+      stackWrap.removeEventListener("touchend", onTouchEnd);
+      items.forEach((item) => {
+        item.removeEventListener("mouseenter", onEnter);
+        item.removeEventListener("click", onListClick);
+      });
+      killPin();
     };
-  }, []);
-
-  useEffect(() => {
-    const onResize = () => {
-      ScrollTrigger.refresh();
-    };
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
   }, []);
 
   return (
     <section
       ref={sectionRef}
-      className="featured-work-section relative w-full overflow-x-hidden bg-[#0b1230]"
+      className="featured-work-section relative w-full overflow-x-hidden bg-transparent"
       id="featured-work"
     >
-      <header className="df aic jcc flex min-h-[38vh] flex-col items-center justify-center py-10 sm:min-h-[55vh] sm:py-16 md:min-h-[100vh]">
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.45 }}
-          transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-          className="h-[min(28vw,120px)] w-full min-h-[88px] max-w-5xl sm:h-[180px] sm:min-h-[140px] md:h-[280px] lg:h-[300px]"
-        >
-          <TextHoverEffect text="FEATURED WORK" />
-        </motion.div>
-      </header>
+      <style>{`
+        /* Cases brutalist — Bakry colors only */
+        .fw-cases {
+          --bg: #E6E2D6;
+          --ink: #111111;
+          --accent: #C6B28A;
+          --muted: #2A2A2A;
+          --card-border: 3px;
+          --font-display: 'Archivo Black', Arial, sans-serif;
+          --font-mono: 'Space Mono', 'Courier New', monospace;
 
-      {GALLERIES.map((projects, i) => (
-        <section key={`gallery-${i}`} className="demo-gallery py-3 sm:py-8">
-          <ul className="wrapper">
-            {projects.map((project) => (
-              <li key={project.title}>
-                <a
-                  className="featured-work-link"
-                  href={project.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`Open ${project.title} (opens in a new tab)`}
-                >
-                  <img
-                    src={project.image}
-                    width={w}
-                    height={h}
-                    alt={project.title}
-                    loading="eager"
-                    decoding="async"
-                  />
-                </a>
-              </li>
-            ))}
-          </ul>
-        </section>
-      ))}
+          position: relative;
+          width: 100%;
+          height: 100vh;
+          min-height: 560px;
+          color: var(--ink);
+          font-family: var(--font-mono);
+          overflow: hidden;
+          background-color: transparent;
+          display: flex;
+          flex-direction: column;
+        }
+        .fw-cases::before {
+          display: none;
+        }
 
-      <section className="demo-text demo-text--static flex min-h-[28vh] items-center justify-center overflow-hidden py-8 sm:min-h-[40vh] sm:py-20">
-        <div className="text text-center text-white px-4 sm:px-8">
-          BUILT TO SHIP
-        </div>
-      </section>
+        .fw-cases .fw-cases-title {
+          position: relative;
+          z-index: 1;
+          flex-shrink: 0;
+          padding: 28px 32px 0;
+          box-sizing: border-box;
+        }
+        .fw-cases .fw-cases-title h2 {
+          margin: 0;
+          font-family: var(--font-display);
+          font-size: clamp(28px, 5.5vw, 56px);
+          line-height: 0.95;
+          letter-spacing: -1px;
+          text-transform: uppercase;
+          color: var(--ink);
+        }
+
+        .fw-cases main.fw-cases-main {
+          position: relative;
+          z-index: 1;
+          flex: 1;
+          min-height: 0;
+          display: grid;
+          grid-template-columns: 1fr 340px;
+          align-items: center;
+          padding: 24px 32px 40px;
+          gap: 24px;
+          box-sizing: border-box;
+        }
+
+        .fw-cases .stack-wrap {
+          position: relative;
+          height: min(480px, 62vh);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .fw-cases .card {
+          position: absolute;
+          width: min(420px, 90%);
+          height: min(420px, 60vh);
+          border: var(--card-border) solid var(--ink);
+          background: var(--ink);
+          box-shadow: 10px 10px 0 var(--ink);
+          overflow: hidden;
+          text-decoration: none;
+          display: block;
+          opacity: 0;
+          transform: translateY(60px) scale(0.92) rotate(0deg);
+          transition:
+            transform .38s cubic-bezier(.16,1,.3,1),
+            opacity .3s ease,
+            box-shadow .25s ease;
+          pointer-events: none;
+          z-index: 1;
+        }
+
+        .fw-cases .card img {
+          width: 100%; height: 100%;
+          object-fit: cover;
+          display: block;
+          filter: grayscale(35%) contrast(1.05);
+          transition: filter .25s ease, transform .5s ease;
+        }
+
+        .fw-cases .card .tag {
+          position: absolute;
+          top: 14px; left: 14px;
+          background: var(--bg);
+          border: 2px solid var(--ink);
+          padding: 4px 10px;
+          font-size: 10px;
+          letter-spacing: 1.5px;
+          text-transform: uppercase;
+          font-weight: 700;
+        }
+
+        .fw-cases .card .visit {
+          position: absolute;
+          bottom: 0; left: 0; right: 0;
+          background: var(--accent);
+          color: #111111;
+          font-family: var(--font-mono);
+          font-weight: 700;
+          font-size: 11px;
+          letter-spacing: 2px;
+          text-transform: uppercase;
+          text-align: center;
+          padding: 12px 0;
+          transform: translateY(100%);
+          transition: transform .25s cubic-bezier(.16,1,.3,1);
+        }
+
+        .fw-cases .card.active {
+          opacity: 1;
+          transform: translateY(0) scale(1) rotate(0deg);
+          pointer-events: auto;
+          z-index: 5;
+        }
+        .fw-cases .card.active:hover img { filter: grayscale(0%) contrast(1); transform: scale(1.04); }
+        .fw-cases .card.active:hover .visit { transform: translateY(0); }
+
+        .fw-cases .card.behind-1 {
+          opacity: 0.9;
+          transform: translateY(-46px) scale(0.94) rotate(-2deg);
+          z-index: 4;
+        }
+        .fw-cases .card.behind-2 {
+          opacity: 0.55;
+          transform: translateY(44px) scale(0.9) rotate(2deg);
+          z-index: 3;
+        }
+        .fw-cases .card.hidden-far {
+          opacity: 0;
+          transform: translateY(90px) scale(0.85) rotate(0deg);
+          z-index: 1;
+        }
+
+        .fw-cases .list {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          gap: 4px;
+          border-left: var(--card-border) solid var(--ink);
+          padding-left: 28px;
+          height: min(480px, 62vh);
+        }
+
+        .fw-cases .list-item {
+          display: flex;
+          align-items: baseline;
+          gap: 12px;
+          padding: 12px 4px;
+          cursor: pointer;
+          border-bottom: 1px solid rgba(17, 17, 17, 0.12);
+        }
+        .fw-cases .list-item .idx {
+          font-size: 11px;
+          color: var(--muted);
+          font-weight: 700;
+          width: 22px;
+        }
+        .fw-cases .list-item .name {
+          font-family: var(--font-display);
+          font-size: clamp(18px, 2.4vw, 26px);
+          text-transform: uppercase;
+          letter-spacing: -0.5px;
+          color: var(--muted);
+          transition: color .15s ease, transform .15s ease;
+        }
+        .fw-cases .list-item.active .name {
+          color: var(--ink);
+          transform: translateX(6px);
+        }
+        .fw-cases .list-item.active .idx { color: var(--accent); }
+        .fw-cases .list-item.active { border-color: var(--ink); }
+
+        .fw-cases .list-item .arrow {
+          margin-left: auto;
+          font-size: 16px;
+          color: var(--accent);
+          opacity: 0;
+          transform: translateX(-6px);
+          transition: opacity .15s ease, transform .15s ease;
+        }
+        .fw-cases .list-item.active .arrow { opacity: 1; transform: translateX(0); }
+
+        @media (max-width: 760px) {
+          .fw-cases {
+            height: auto;
+            min-height: 0;
+            max-height: none;
+            overflow: visible;
+            justify-content: flex-start;
+            padding-top: max(20px, env(safe-area-inset-top));
+            padding-bottom: max(32px, env(safe-area-inset-bottom));
+            box-sizing: border-box;
+          }
+
+          .fw-cases .fw-cases-title {
+            padding: 0 20px;
+            text-align: center;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 3;
+          }
+          .fw-cases .fw-cases-title h2 {
+            font-size: clamp(26px, 8vw, 36px);
+            letter-spacing: -0.5px;
+            text-align: center;
+          }
+
+          .fw-cases main.fw-cases-main {
+            grid-template-columns: 1fr;
+            grid-template-rows: auto auto;
+            align-items: center;
+            justify-items: center;
+            align-content: start;
+            padding: 0 20px 8px;
+            gap: 0;
+            flex: none;
+          }
+
+          .fw-cases .stack-wrap {
+            position: relative;
+            z-index: 2;
+            height: min(68vw, 250px);
+            min-height: 190px;
+            width: 100%;
+            /* Room for stacked cards + gap before list */
+            margin-top: 40px;
+            margin-bottom: 40px;
+            padding-top: 20px;
+            overflow: visible;
+          }
+
+          .fw-cases .card {
+            width: min(68vw, 250px, 100%);
+            height: min(68vw, 250px);
+            box-shadow: 6px 6px 0 var(--ink);
+          }
+
+          /* On phone: don't let back cards peek up into the title */
+          .fw-cases .card.behind-1 {
+            transform: translateY(18px) scale(0.94) rotate(-1deg);
+            opacity: 0.75;
+          }
+          .fw-cases .card.behind-2 {
+            transform: translateY(36px) scale(0.9) rotate(1deg);
+            opacity: 0.45;
+          }
+
+          .fw-cases .card .tag {
+            top: 10px;
+            left: 10px;
+            padding: 3px 8px;
+            font-size: 9px;
+          }
+
+          /* Touch: always show visit on active card (no hover) */
+          .fw-cases .card.active .visit {
+            transform: translateY(0);
+          }
+          .fw-cases .card .visit {
+            font-size: 10px;
+            letter-spacing: 1.5px;
+            padding: 10px 0;
+          }
+
+          .fw-cases .list {
+            border-left: none;
+            border-top: var(--card-border) solid var(--ink);
+            width: 100%;
+            margin-top: 0;
+            margin-bottom: 8px;
+            padding-left: 0;
+            padding-top: 32px;
+            height: auto;
+            max-height: none;
+            gap: 0;
+            justify-content: flex-start;
+            overflow: visible;
+          }
+
+          .fw-cases .list-item {
+            gap: 8px;
+            padding: 11px 2px;
+            border-bottom: none;
+          }
+          .fw-cases .list-item.active {
+            border-bottom: none;
+          }
+          .fw-cases .list-item .idx {
+            font-size: 10px;
+            width: 18px;
+            flex-shrink: 0;
+          }
+          .fw-cases .list-item .name {
+            font-size: clamp(14px, 4.2vw, 18px);
+            letter-spacing: -0.3px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+          .fw-cases .list-item.active .name {
+            transform: translateX(3px);
+          }
+          .fw-cases .list-item .arrow {
+            font-size: 14px;
+            flex-shrink: 0;
+          }
+        }
+
+        /* Very short phones / landscape phones */
+        @media (max-width: 760px) and (max-height: 700px) {
+          .fw-cases {
+            padding-top: max(14px, env(safe-area-inset-top));
+            padding-bottom: max(24px, env(safe-area-inset-bottom));
+          }
+          .fw-cases .fw-cases-title {
+            margin-bottom: 6px;
+          }
+          .fw-cases .fw-cases-title h2 {
+            font-size: clamp(22px, 7vw, 30px);
+          }
+          .fw-cases .stack-wrap {
+            margin-top: 28px;
+            margin-bottom: 32px;
+            padding-top: 16px;
+            height: min(52vw, 200px);
+            min-height: 150px;
+          }
+          .fw-cases .card {
+            width: min(52vw, 200px);
+            height: min(52vw, 200px);
+            box-shadow: 4px 4px 0 var(--ink);
+          }
+          .fw-cases .list {
+            padding-top: 22px;
+          }
+          .fw-cases .list-item {
+            padding: 7px 2px;
+          }
+          .fw-cases .list-item .name {
+            font-size: clamp(12px, 3.6vw, 15px);
+          }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .fw-cases .card,
+          .fw-cases .card .visit,
+          .fw-cases .list-item .name { transition-duration: .01s !important; }
+        }
+      `}</style>
+
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Mono:wght@400;700&display=swap"
+      />
+
+      <div ref={casesRef} className="fw-cases" aria-label="Selected cases">
+        <header className="fw-cases-title">
+          <h2>Featured Work</h2>
+        </header>
+        <main className="fw-cases-main">
+          <div className="stack-wrap" id="stackWrap" />
+          <div className="list" id="listWrap" />
+        </main>
+      </div>
     </section>
   );
 }
+
+export default FeaturedWorkSection;

@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import type { Metadata } from "next";
 import { SiteFooter } from "@/components/SiteFooter";
 
@@ -9,18 +9,18 @@ export const metadata: Metadata = {
 
 export default function PrivacyPage() {
   return (
-    <main className="min-h-screen bg-[#0b1230] text-white">
+    <main className="min-h-screen bg-[#E6E2D6] text-[#111111]">
       <div className="mx-auto w-full max-w-3xl px-6 py-16 sm:py-20">
-        <p className="mb-6 text-sm text-white/50">
-          <Link href="/" className="text-cyan hover:text-white">
+        <p className="mb-6 text-sm text-[#2A2A2A]/70">
+          <Link href="/" className="text-[#55624A] hover:text-[#111111]">
             Home
           </Link>
         </p>
         <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
           Privacy Policy
         </h1>
-        <p className="mt-3 text-sm text-white/45">Last updated: July 2026</p>
-        <div className="mt-8 space-y-5 text-sm leading-relaxed text-white/70 sm:text-base">
+        <p className="mt-3 text-sm text-[#2A2A2A]/60">Last updated: July 2026</p>
+        <div className="mt-8 space-y-5 text-sm leading-relaxed text-[#2A2A2A] sm:text-base">
           <p>
             Bakry LLC collects only what we need to respond to inquiries and deliver
             projects — typically your name, email, and project details you choose to share.
@@ -33,7 +33,7 @@ export default function PrivacyPage() {
           <p>
             You can ask for access, correction, or deletion of your personal data by
             emailing{" "}
-            <a href="mailto:hello@bakryllc.com" className="text-cyan hover:text-white">
+            <a href="mailto:hello@bakryllc.com" className="text-[#55624A] hover:text-[#111111]">
               hello@bakryllc.com
             </a>
             . This policy may be updated as our practices evolve.

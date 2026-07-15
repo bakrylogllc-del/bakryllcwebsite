@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 /**
  * SECTION 4 — HyperScroll 3D tunnel
@@ -170,7 +170,7 @@ export function HyperScrollSection() {
             if (Math.abs(velRef.current) > 1) {
               const off = velRef.current * 1.5;
               (item.el.firstChild as HTMLElement).style.textShadow =
-                `${off}px 0 #24dbe7, ${-off}px 0 #7a3af9`;
+                `${off}px 0 #C6B28A, ${-off}px 0 #55624A`;
             } else {
               (item.el.firstChild as HTMLElement).style.textShadow = "none";
             }
@@ -278,12 +278,12 @@ export function HyperScrollSection() {
           width: 100%;
           height: 100vh;
           overflow: hidden;
-          background: #0b1230;
+          background: #E6E2D6;
         }
 
         .hss-entry-overlay {
           position: absolute; inset: 0; z-index: 30;
-          pointer-events: none; background: #0b1230;
+          pointer-events: none; background: #E6E2D6;
           transition: opacity 0.22s cubic-bezier(0.22, 1, 0.36, 1);
           opacity: 1;
         }
@@ -291,7 +291,7 @@ export function HyperScrollSection() {
 
         .hss-exit-overlay {
           position: absolute; inset: 0; z-index: 30;
-          pointer-events: none; background: #0b1230;
+          pointer-events: none; background: #E6E2D6;
           transition: opacity 0.2s cubic-bezier(0.22, 1, 0.36, 1);
           opacity: 0;
         }
@@ -310,24 +310,24 @@ export function HyperScrollSection() {
 
         .hss-vignette {
           position: absolute; inset: 0;
-          background: radial-gradient(circle, transparent 35%, #0b1230 130%);
+          background: radial-gradient(circle, transparent 35%, #E6E2D6 130%);
           z-index: 11; pointer-events: none;
         }
 
         .hss-hud {
           position: absolute; inset: 1.5rem; z-index: 20;
           pointer-events: none; display: flex;
-          flex-direction: column; justify-content: space-between;
+          flex-direction: column; justify-content: flex-start;
           font-family: 'JetBrains Mono', monospace;
-          font-size: 9px; color: rgba(36,219,231,0.45);
+          font-size: 9px; color: rgba(42, 42, 42, 0.55);
           text-transform: uppercase; letter-spacing: 0.1em;
         }
         .hss-hud-row { display: flex; justify-content: space-between; align-items: center; }
-        .hss-hud strong { color: #24dbe7; }
-        .hss-hud-line { flex: 1; height: 1px; background: rgba(47,124,246,0.25); margin: 0 0.75rem; }
+        .hss-hud strong { color: #C6B28A; }
+        .hss-hud-line { flex: 1; height: 1px; background: rgba(85, 98, 74,0.25); margin: 0 0.75rem; }
         .hss-hud-line::after {
           content: ''; display: block; margin-left: auto;
-          width: 4px; height: 4px; background: #24dbe7; margin-top: -2px;
+          width: 4px; height: 4px; background: #C6B28A; margin-top: -2px;
         }
 
         .hss-viewport {
@@ -348,12 +348,12 @@ export function HyperScrollSection() {
 
         .hss-card {
           width: 300px; height: 440px;
-          background: rgba(11,18,48,0.55);
-          border: 1px solid rgba(47,124,246,0.25);
+          background: rgba(17, 17, 17,0.55);
+          border: 1px solid rgba(85, 98, 74,0.25);
           position: relative; padding: 1.75rem;
           display: flex; flex-direction: column; justify-content: space-between;
           backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-          box-shadow: 0 0 0 1px rgba(0,0,0,0.5), 0 20px 50px rgba(0,0,0,0.4), inset 0 0 60px rgba(36,219,231,0.04);
+          box-shadow: 0 0 0 1px rgba(0,0,0,0.5), 0 20px 50px rgba(0,0,0,0.4), inset 0 0 60px rgba(198, 178, 138,0.04);
           transition: border-color 0.3s ease, box-shadow 0.3s ease;
           transform: translate(-50%,-50%); border-radius: 4px;
         }
@@ -361,27 +361,27 @@ export function HyperScrollSection() {
           content: ''; position: absolute; width: 10px; height: 10px;
           border: 1px solid transparent; transition: 0.35s ease;
         }
-        .hss-card::before { top: -1px; left: -1px; border-top-color: #24dbe7; border-left-color: #24dbe7; }
-        .hss-card::after  { bottom: -1px; right: -1px; border-bottom-color: #7a3af9; border-right-color: #7a3af9; }
+        .hss-card::before { top: -1px; left: -1px; border-top-color: #C6B28A; border-left-color: #C6B28A; }
+        .hss-card::after  { bottom: -1px; right: -1px; border-bottom-color: #55624A; border-right-color: #55624A; }
         @media (hover: hover) {
-          .hss-card:hover { border-color: #24dbe7; box-shadow: 0 0 40px rgba(36,219,231,0.3), 0 20px 50px rgba(0,0,0,0.5); }
-          .hss-card:hover::before, .hss-card:hover::after { width: 100%; height: 100%; border-color: #24dbe7; }
+          .hss-card:hover { border-color: #C6B28A; box-shadow: 0 0 40px rgba(198, 178, 138,0.3), 0 20px 50px rgba(0,0,0,0.5); }
+          .hss-card:hover::before, .hss-card:hover::after { width: 100%; height: 100%; border-color: #C6B28A; }
         }
         .hss-card-header {
-          border-bottom: 1px solid rgba(47,124,246,0.2);
+          border-bottom: 1px solid rgba(85, 98, 74,0.2);
           padding-bottom: 0.75rem; margin-bottom: 0.75rem;
           display: flex; justify-content: space-between; align-items: center;
         }
-        .hss-card-id    { font-family: 'JetBrains Mono', monospace; color: #2f7cf6; font-size: 0.7rem; letter-spacing: 0.12em; }
-        .hss-card-dot   { width: 8px; height: 8px; background: #24dbe7; border-radius: 50%; box-shadow: 0 0 8px #24dbe7; }
+        .hss-card-id    { font-family: 'JetBrains Mono', monospace; color: #55624A; font-size: 0.7rem; letter-spacing: 0.12em; }
+        .hss-card-dot   { width: 8px; height: 8px; background: #C6B28A; border-radius: 50%; box-shadow: 0 0 8px #C6B28A; }
         .hss-card-title { font-size: 2rem; line-height: 1; margin: 0; text-transform: uppercase; font-weight: 700; color: #fff; font-family: 'Syncopate', sans-serif; mix-blend-mode: hard-light; }
-        .hss-card-tags  { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: rgba(244,247,251,0.6); margin: 0.5rem 0 0; letter-spacing: 0.05em; }
-        .hss-card-footer { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: rgba(244,247,251,0.4); display: flex; justify-content: space-between; }
-        .hss-card-num   { position: absolute; bottom: 1.75rem; right: 1.75rem; font-size: 3.5rem; opacity: 0.07; font-weight: 900; font-family: 'Syncopate', sans-serif; color: #2f7cf6; line-height: 1; }
+        .hss-card-tags  { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: rgba(230, 226, 214, 0.65); margin: 0.5rem 0 0; letter-spacing: 0.05em; }
+        .hss-card-footer { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: rgba(230, 226, 214,0.4); display: flex; justify-content: space-between; }
+        .hss-card-num   { position: absolute; bottom: 1.75rem; right: 1.75rem; font-size: 3.5rem; opacity: 0.07; font-weight: 900; font-family: 'Syncopate', sans-serif; color: #55624A; line-height: 1; }
 
         .hss-big-text {
           font-size: 14vw; font-weight: 800; color: transparent;
-          -webkit-text-stroke: 1.5px rgba(36,219,231,0.2);
+          -webkit-text-stroke: 1.5px rgba(17, 17, 17, 0.18);
           text-transform: uppercase; white-space: nowrap;
           transform: translate(-50%,-50%); pointer-events: none;
           letter-spacing: -0.04em; mix-blend-mode: overlay;
@@ -390,18 +390,18 @@ export function HyperScrollSection() {
 
         .hss-star {
           position: absolute; width: 2px; height: 2px;
-          background: rgba(36,219,231,0.8);
+          background: rgba(198, 178, 138,0.8);
           transform: translate(-50%,-50%); border-radius: 1px;
         }
 
         .hss-blend-top {
           position: absolute; top: 0; left: 0; right: 0; height: 120px;
-          background: linear-gradient(to bottom, #0b1230 0%, transparent 100%);
+          background: linear-gradient(to bottom, #E6E2D6 0%, transparent 100%);
           z-index: 15; pointer-events: none;
         }
         .hss-blend-bottom {
           position: absolute; bottom: 0; left: 0; right: 0; height: 120px;
-          background: linear-gradient(to top, #0b1230 0%, transparent 100%);
+          background: linear-gradient(to top, #E6E2D6 0%, transparent 100%);
           z-index: 15; pointer-events: none;
         }
       `}</style>
@@ -425,11 +425,6 @@ export function HyperScrollSection() {
             <span>BAKRY <strong>LLC</strong></span>
             <div className="hss-hud-line" />
             <span>SYS.<strong>READY</strong></span>
-          </div>
-          <div className="hss-hud-row">
-            <span>PRODUCT <strong>SUITE</strong></span>
-            <div className="hss-hud-line" />
-            <span>VER <strong>2.0</strong></span>
           </div>
         </div>
 
