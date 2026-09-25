@@ -251,15 +251,20 @@ const CONTACT_HTML = `<!DOCTYPE html>
     border:1px solid rgba(255,255,255,0.25);
     border-radius:10px;
     color: var(--accent-text);
-    font-size:13px;
+    /* ≥16px prevents iOS Safari zoom-on-focus */
+    font-size:16px;
     letter-spacing:0.5px;
     text-transform:uppercase;
     font-family: var(--font-display);
     outline:none;
-    transition: border-color .2s ease;
+    transition: border-color .25s ease, background .25s ease, box-shadow .25s ease;
   }
-  .field::placeholder{ color: var(--muted-text); text-transform:uppercase; letter-spacing:0.5px; }
-  .field:focus{ border-color: rgba(255,255,255,0.7); }
+  .field::placeholder{ color: var(--muted-text); text-transform:uppercase; letter-spacing:0.5px; font-size:16px; }
+  .field:focus{
+    border-color: rgba(255,255,255,0.85);
+    background: rgba(255,255,255,0.06);
+    box-shadow: 0 0 0 3px rgba(198,178,138,0.28);
+  }
   textarea.field{ resize:none; min-height:100px; font-family:var(--font-display); }
 
   .submit-btn{
