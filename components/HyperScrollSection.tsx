@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 /**
  * SECTION 4 — HyperScroll 3D tunnel
@@ -29,9 +29,11 @@ const CONFIG = {
   itemCount: 20,
   starCount: 120,
   zGap: 800,
-  camSpeed: 2.5,
-  /** Keep first title ahead of the camera so entry scroll doesn't skip it. */
-  leadIn: 700,
+  camSpeed: 1.85,
+  /** First title sits closer + extra approach distance so entry doesn't skip it. */
+  leadIn: 1400,
+  /** Soft start: hold near the first title before accelerating into the tunnel. */
+  startHold: 0.1,
 };
 
 // Total tunnel length — one full pass, no loop
@@ -81,7 +83,12 @@ export function HyperScrollSection() {
         txt.className = "hss-big-text";
         txt.innerText = TEXTS[i % TEXTS.length];
         el.appendChild(txt);
-        items.push({ el, type: "text", x: 0, y: 0, rot: 0, baseZ: -(i * CONFIG.zGap + CONFIG.leadIn) });
+        // First title starts closer so entry doesn't skip past it
+        const z =
+          i === 0
+            ? -(CONFIG.leadIn * 0.45)
+            : -(i * CONFIG.zGap + CONFIG.leadIn);
+        items.push({ el, type: "text", x: 0, y: 0, rot: 0, baseZ: z });
       } else {
         const card = CARDS[(i - 1) % CARDS.length];
         const cardEl = document.createElement("div");
@@ -217,11 +224,28 @@ export function HyperScrollSection() {
       exitTimer = undefined;
     };
 
+    const mapProgress = (raw: number) => {
+      // Ease through the first chunk so BAKRY doesn't fly past on pin entry
+      const hold = CONFIG.startHold;
+      if (raw <= hold) {
+        return (raw / hold) * hold * 0.35;
+      }
+      const t = (raw - hold) / (1 - hold);
+      return hold * 0.35 + t * (1 - hold * 0.35);
+    };
+
+    sectionScrollRef.current = 0;
+    targetVelRef.current = 0;
+    velRef.current = 0;
+
     const st = ScrollTrigger.create({
       trigger: section,
       start: "top top",
-      end: `+=${scrollBudget}`,
+      end: `+=${Math.round(scrollBudget * 1.12)}`,
       pin: true,
+      scrub: 0.55,
+      anticipatePin: 1,
+      invalidateOnRefresh: true,
       onEnter: () => {
         clearExit();
         setExiting(false);
@@ -253,9 +277,16 @@ export function HyperScrollSection() {
         }, 220);
       },
       onUpdate: (self) => {
-        sectionScrollRef.current = self.progress * scrollBudget;
-        targetVelRef.current     = self.getVelocity() / 100;
+        const mapped = mapProgress(self.progress);
+        sectionScrollRef.current = mapped * scrollBudget;
+        targetVelRef.current = self.getVelocity() / 140;
       },
+    });
+
+    // Paint first frame with title visible before user scrolls
+    requestAnimationFrame(() => {
+      sectionScrollRef.current = 0;
+      startLoop();
     });
 
     return () => {

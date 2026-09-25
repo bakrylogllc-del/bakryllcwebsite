@@ -20,28 +20,28 @@ const services = [
     title: "Web",
     tags: "Sites • Apps • Platforms",
     slug: "web",
-    img: "/service-web.png",
+    img: "/service-web.webp",
   },
   {
     id: 1,
     title: "Mobile",
     tags: "iOS • Android • Cross-platform",
     slug: "mobile",
-    img: "/service-mobile.png",
+    img: "/service-mobile.webp",
   },
   {
     id: 2,
     title: "SaaS",
     tags: "Products • Billing • Scale",
     slug: "saas",
-    img: "/service-saas.png",
+    img: "/service-saas.webp",
   },
   {
     id: 3,
     title: "Automation",
     tags: "Workflows • Integrations • Ops",
     slug: "automation",
-    img: "/service-automation.png",
+    img: "/service-automation.webp",
   },
 ];
 

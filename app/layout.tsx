@@ -1,4 +1,4 @@
-﻿import type { Metadata, Viewport } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Lexend_Mega } from "next/font/google";
 import { GlobalDotCursor } from "@/components/GlobalDotCursor";
 import { GsapScrollBootstrap } from "@/components/GsapScrollBootstrap";
@@ -43,7 +43,7 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} ${lexendMega.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col overflow-x-hidden pb-[env(safe-area-inset-bottom)]">
+      <body className="min-h-full flex flex-col overflow-x-clip pb-[env(safe-area-inset-bottom)]">
         <GsapScrollBootstrap />
         <GlobalDotCursor />
         {children}

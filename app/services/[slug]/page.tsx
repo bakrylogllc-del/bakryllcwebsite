@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -6,28 +6,28 @@ import { useParams, notFound } from "next/navigation";
 
 const DATA: Record<string, { title: string; description: string; img: string }> = {
   web: {
-    title: "Web",
+    title: "Web Development",
     description:
-      "Modern websites and web apps designed for clarity, speed, and conversion — then developed to scale with your business.",
-    img: "/service-web.png",
+      "Fast, responsive websites built around your business, your customers, and measurable results.",
+    img: "/service-web.webp",
   },
   mobile: {
-    title: "Mobile",
+    title: "Mobile Apps",
     description:
-      "iOS and Android experiences that feel native, ship faster, and keep users coming back.",
-    img: "/service-mobile.png",
+      "Modern iOS and Android applications designed for smooth performance, intuitive use, and real-world needs.",
+    img: "/service-mobile.webp",
   },
   saas: {
-    title: "SaaS",
+    title: "SaaS Products",
     description:
-      "Productized platforms with the foundations that matter — auth, billing, multi-tenant architecture, and a roadmap built to grow.",
-    img: "/service-saas.png",
+      "Scalable software platforms designed to simplify operations, manage data, and support business growth.",
+    img: "/service-saas.webp",
   },
   automation: {
     title: "Automation",
     description:
-      "Workflows and integrations that remove busywork, connect your stack, and keep operations running without manual drag.",
-    img: "/service-automation.png",
+      "Smart workflows and system integrations that reduce repetitive work, save time, and keep your operations connected.",
+    img: "/service-automation.webp",
   },
 };
 

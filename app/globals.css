@@ -1,4 +1,4 @@
-﻿@import "tailwindcss";
+@import "tailwindcss";
 
 /* View-transition CSS removed — transitions were freezing the page over LAN. */
 
@@ -470,7 +470,7 @@ html.custom-cursor-on .services-thumb .inner {
   left: 0;
   background: var(--bg);
   opacity: 1;
-  z-index: -2;
+  z-index: 0;
 }
 
 .services-thumb .inner img {
@@ -482,7 +482,7 @@ html.custom-cursor-on .services-thumb .inner {
   height: 100%;
   object-fit: cover;
   object-position: center;
-  z-index: -1;
+  z-index: 1;
   /* Always sharp — no scroll blur / desaturate / blend effects */
   transform: none;
   filter: none;
@@ -677,117 +677,7 @@ html.services-overlay-open body * {
   border: none;
 }
 
-/* ScrollTrigger Gallery Styles */
-.featured-work-section {
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif;
-}
-
-.featured-work-section h1 {
-  font-size: 5rem;
-  font-weight: 900;
-}
-
-.featured-work-section h2 {
-  font-size: 2rem;
-}
-
-.featured-work-section img {
-  width: 100%;
-  height: auto;
-  background: var(--soft);
-  border-radius: 4px;
-  display: block;
-}
-
-.featured-work-section .featured-work-link {
-  display: block;
-  overflow: hidden;
-  border-radius: 4px;
-  outline: none;
-  cursor: pointer;
-  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease;
-}
-
-.featured-work-section .featured-work-link:hover,
-.featured-work-section .featured-work-link:focus-visible {
-  transform: scale(1.02);
-  box-shadow: 0 0 0 2px var(--cyan, #C6B28A);
-}
-
-.featured-work-section .featured-work-link img {
-  transition: filter 0.35s ease;
-}
-
-.featured-work-section .featured-work-link:hover img,
-.featured-work-section .featured-work-link:focus-visible img {
-  filter: brightness(1.06);
-}
-
-.featured-work-section ul {
-  padding-left: 1rem;
-  list-style: none;
-}
-
-.featured-work-section li {
-  flex-shrink: 0;
-  width: clamp(500px, 60vw, 800px);
-  padding-right: 1rem;
-}
-
-.featured-work-section .df {
-  display: flex;
-}
-
-.featured-work-section .aic {
-  align-items: center;
-}
-
-.featured-work-section .jcc {
-  justify-content: center;
-}
-
-.featured-work-section .loader {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: var(--ivory);
-  color: var(--jet);
-  z-index: 9999;
-}
-
-.featured-work-section .wrapper {
-  display: flex;
-}
-
-.featured-work-section .demo-gallery {
-  padding-bottom: 1rem;
-}
-
-.featured-work-section .demo-text .text {
-  font-size: clamp(8rem, 15vw, 16rem);
-  line-height: 1;
-  font-weight: 900;
-}
-
-@media (max-width: 900px) {
-  .featured-work-section li {
-    width: clamp(260px, 78vw, 420px);
-    padding-right: 0.65rem;
-  }
-  .featured-work-section .demo-gallery {
-    padding-top: 0.25rem;
-    padding-bottom: 0.5rem;
-  }
-  .featured-work-section .demo-text .text {
-    font-size: clamp(2.1rem, 11vw, 3.5rem);
-    letter-spacing: -0.03em;
-    white-space: nowrap;
-    text-align: center;
-    width: 100%;
-  }
-}
+/* Featured Work stacking cards — styles in FeaturedWorkSection.tsx */
 
 @media (max-width: 900px) {
   #services-wrap {
@@ -894,7 +784,7 @@ html.services-overlay-open body * {
     position: relative;
     order: 2;
     grid-area: unset;
-    width: min(100%, 340px);
+    width: min(100%, 420px);
     max-width: 100%;
     aspect-ratio: auto;
     height: auto;
@@ -923,12 +813,15 @@ html.services-overlay-open body * {
     position: relative;
     width: 100%;
     height: auto;
-    aspect-ratio: 1 / 1;
+    /* Photos are ~4:3 landscape — don't force square crop on phone/tablet */
+    aspect-ratio: 4 / 3;
     left: auto;
     top: auto;
     overflow: hidden;
     box-shadow: 0 0 0 2px var(--g);
     border-radius: 8px;
+    background: var(--bg);
+    isolation: isolate;
   }
 
   /* Cleaner phone frame — no offset ghost border fighting the tags */
@@ -938,6 +831,10 @@ html.services-overlay-open body * {
 
   /* Hide dashed connectors — they fight the stacked phone layout */
   .services-thumb::after {
+    display: none;
+  }
+
+  .services-thumb .inner::after {
     display: none;
   }
 
@@ -952,10 +849,35 @@ html.services-overlay-open body * {
     object-fit: cover;
     object-position: center;
     filter: none;
+    /* Negative z-index hides photos behind the panel on some mobile browsers */
+    z-index: 1;
+    position: absolute;
   }
 
   #services-close {
     left: max(16px, env(safe-area-inset-left));
     top: max(5rem, calc(env(safe-area-inset-top) + 4.25rem));
+  }
+}
+
+/* Tablet / small laptop — keep readable image size in the desktop grid */
+@media (min-width: 901px) and (max-width: 1100px) {
+  .services-panel {
+    max-height: 70vh;
+    padding: 16px;
+  }
+
+  .services-thumb {
+    max-width: 100%;
+  }
+
+  .services-thumb .inner {
+    border-radius: 8px;
+  }
+
+  .services-thumb .inner img {
+    z-index: 1;
+    object-fit: cover;
+    object-position: center;
   }
 }

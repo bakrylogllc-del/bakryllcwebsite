@@ -11,7 +11,7 @@ Use this when something looks wrong: find the **section number**, open the **com
 | 3b | Service detail (iframe page) | `app/services/[slug]/page.tsx` | Tailwind on that page | — |
 | 4 | HyperScroll 3D tunnel | `components/HyperScrollSection.tsx` | **Inline `<style>` inside HyperScrollSection.tsx** | `#hyper-scroll` |
 | 5 | Text reveal (How we work) | `components/TextRevealSection.tsx` | **Inline `<style>` inside TextRevealSection.tsx** | `#text-reveal` |
-| 6 | Featured Work (title + Cases gallery) | `components/FeaturedWorkSection.tsx` | Inline Cases CSS (Bakry colors) + ScrollTrigger pin | `#featured-work` |
+| 6 | Featured Work (Webflow stacking stickies) | `components/FeaturedWorkSection.tsx` | Inline CSS + ScrollTrigger scale (from `ideas/Stacking cards animation.html`) | `#featured-work` |
 | 7 | Contact (circle → form morph) | `components/ContactMorphSection.tsx` | **Inline `<style>` inside ContactMorphSection.tsx** | `#contact` |
 | 8 | Site footer | `components/SiteFooter.tsx` | Tailwind in SiteFooter.tsx | — |
 | — | Old contact scroll story (unused) | `components/ContactSection.tsx` | still in repo; not mounted | — |

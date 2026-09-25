@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 /**
  * SECTION 2 — Wire cards
@@ -189,35 +189,28 @@ export function WireSection() {
           justify-content: center;
         }
 
+        /* Solid palette ink — clearer than the old glowing mix-blend gradient */
         .ws-card-heading {
           font-family: "Source Code Pro", monospace;
-          font-size: clamp(20px, 5vw, 28px);
+          font-size: clamp(22px, 5.4vw, 32px);
           font-weight: 600;
           line-height: 1.3;
           text-align: center;
-          background: linear-gradient(-45deg, #C6B28A 0%, #55624A 40%, #55624A 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-          filter: brightness(1.3);
-          mix-blend-mode: plus-lighter;
+          color: #55624A;
+          -webkit-text-fill-color: #55624A;
           text-shadow: none;
         }
 
         .ws-card-code {
           font-family: "Source Code Pro", monospace;
-          font-size: clamp(11px, 3vw, 13px);
-          line-height: 22px;
+          font-size: clamp(13px, 3.4vw, 15px);
+          line-height: 24px;
           font-weight: 500;
           white-space: pre;
           text-align: left;
           width: 100%;
-          background: linear-gradient(45deg, #C6B28A 0%, #55624A 50%, #55624A 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-          filter: brightness(1.4);
-          mix-blend-mode: plus-lighter;
+          color: #55624A;
+          -webkit-text-fill-color: #55624A;
         }
 
         .ws-card-label {
@@ -286,8 +279,8 @@ export function WireSection() {
 
         @media (max-width: 480px) {
           .ws-cards { top: 3.4%; width: min(280px, 84vw); gap: 8px; }
-          .ws-card-heading { font-size: clamp(15px, 4.4vw, 22px); }
-          .ws-card-code { font-size: clamp(10px, 2.8vw, 12px); line-height: 1.55; }
+          .ws-card-heading { font-size: clamp(17px, 4.8vw, 24px); }
+          .ws-card-code { font-size: clamp(12px, 3.2vw, 14px); line-height: 1.55; }
         }
       `}</style>
 

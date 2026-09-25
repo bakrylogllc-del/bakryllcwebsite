@@ -1,3 +1,12 @@
-# Drop Featured Work screenshots here (1240×874 or 2480×1748), then point
-# `image: "/featured/your-file.jpg"` and `href: "https://yoursite.com"` in
-# components/FeaturedWorkSection.tsx
+# Featured Work images
+#
+# Optimized WebP sources used by components/FeaturedWorkSection.tsx
+# Original desktop screenshots kept in /public/*.png for reference.
+#
+# seven-degree.webp  → Seven Degree
+# gherpado.webp      → Gherpado
+# alpha-armor.webp   → Alpha Armor
+# 3dk.webp           → 3DK LLC
+# opalith.webp       → Opalith Cairo (optional / spare)
+#
+# Target: ~1920px wide, landscape hero crop, WebP

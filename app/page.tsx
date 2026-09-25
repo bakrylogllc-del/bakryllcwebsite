@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 /**
  * SECTION 1 — Hero
@@ -28,6 +28,7 @@ import { SoftLightGrid } from "@/components/SoftLightGrid";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteScrollProgress } from "@/components/SiteScrollProgress";
 import { LoadingGate, type IntroMode } from "@/components/LoadingGate";
+import { Header } from "@/components/Header";
 
 type CineStep = 0 | 1 | 2 | 3;
 
@@ -97,14 +98,14 @@ export default function Home() {
 
   return (
     <LoadingGate onReady={onLoaderReady}>
-    <main className="relative w-full max-w-[100vw] overflow-x-hidden bg-[#E6E2D6]">
+    <main className="relative w-full max-w-[100vw] overflow-x-clip bg-[#E6E2D6]">
       {/* Fixed progress: Wire → end of page (HUD-style bottom bar) */}
       <SiteScrollProgress />
+      <Header />
 
       {/* ═══════════════════════════════════════════
           SECTION 1 — Hero (BAKRY LLC)
           files: app/page.tsx · CyberGridBackground.tsx · ui/text-hover-effect.tsx
-          Header temporarily removed
       ═══════════════════════════════════════════ */}
       <section className="relative flex min-h-[100svh] w-full flex-col overflow-hidden select-none [&_*]:select-none">
         <div className="pointer-events-none absolute inset-0 z-0">

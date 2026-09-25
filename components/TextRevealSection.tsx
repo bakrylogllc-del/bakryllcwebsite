@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 /**
  * SECTION 5 — Text reveal
@@ -37,21 +37,23 @@ export function TextRevealSection() {
 
     const ctx = gsap.context(() => {
       const lineEls = root.querySelectorAll<HTMLElement>(".trs-line");
-      const isMobile = window.matchMedia("(max-width: 768px)").matches;
+      const isNarrow = window.matchMedia("(max-width: 900px)").matches;
 
       lineEls.forEach((line) => {
         const fill = line.querySelector<HTMLElement>(".trs-fill");
         if (!fill) return;
 
-        gsap.set(fill, { width: "0%" });
+        gsap.set(fill, { clipPath: "inset(0 100% 0 0)" });
 
         ScrollTrigger.create({
           trigger: line,
-          start: "top 90%",
-          end: "top 35%",
-          scrub: isMobile ? 0.45 : 1.2,
+          start: isNarrow ? "top 92%" : "top 90%",
+          // Longer travel on phone/tablet so each line fully fills before leaving
+          end: isNarrow ? "top 18%" : "top 35%",
+          scrub: isNarrow ? 0.4 : 1.2,
           onUpdate: (self) => {
-            gsap.set(fill, { width: `${self.progress * 100}%` });
+            const remain = Math.max(0, Math.min(100, (1 - self.progress) * 100));
+            gsap.set(fill, { clipPath: `inset(0 ${remain}% 0 0)` });
           },
         });
       });
@@ -66,9 +68,10 @@ export function TextRevealSection() {
         .trs-root {
           width: 100%;
           background: #E6E2D6;
-          padding: 14vh 8% 18vh;
+          padding: 14vh 6% 18vh;
           box-sizing: border-box;
           position: relative;
+          overflow: visible;
         }
 
         .trs-root::before {
@@ -90,6 +93,8 @@ export function TextRevealSection() {
           display: flex;
           flex-direction: column;
           width: 100%;
+          max-width: 1100px;
+          margin: 0 auto;
         }
 
         .trs-line {
@@ -97,16 +102,15 @@ export function TextRevealSection() {
           font-family: var(--font-lexend-mega, 'Lexend Mega', 'Syncopate', sans-serif);
           font-weight: 700;
           letter-spacing: -0.015em;
-          line-height: 1;
+          line-height: 1.05;
           margin: 0;
           width: 100%;
-          padding: 0.22em 0;
+          padding: 0.28em 0;
           border-bottom: 1px solid rgba(198, 178, 138, 0.12);
           position: relative;
-          display: flex;
-          align-items: center;
+          display: block;
           cursor: default;
-          overflow: hidden;
+          overflow: visible;
         }
 
         .trs-line:first-child {
@@ -118,23 +122,25 @@ export function TextRevealSection() {
           position: relative;
           z-index: 1;
           pointer-events: none;
-          white-space: nowrap;
+          display: block;
+          white-space: normal;
+          overflow-wrap: anywhere;
+          word-break: break-word;
         }
 
         .trs-fill {
           position: absolute;
           left: 0;
           top: 0;
-          height: 100%;
-          width: 0%;
-          overflow: hidden;
+          right: 0;
+          bottom: 0;
           z-index: 2;
           pointer-events: none;
-          display: flex;
-          align-items: center;
+          display: block;
+          overflow: hidden;
+          clip-path: inset(0 100% 0 0);
           padding: 0.28em 0;
           box-sizing: border-box;
-          white-space: nowrap;
         }
 
         .trs-fill-text {
@@ -142,10 +148,12 @@ export function TextRevealSection() {
           font-family: var(--font-lexend-mega, 'Lexend Mega', 'Syncopate', sans-serif);
           font-weight: 700;
           letter-spacing: -0.015em;
-          line-height: 1;
+          line-height: 1.05;
           color: #111111;
-          white-space: nowrap;
-          flex-shrink: 0;
+          display: block;
+          white-space: normal;
+          overflow-wrap: anywhere;
+          word-break: break-word;
         }
 
         .trs-line:last-child .trs-fill-text {
@@ -155,32 +163,35 @@ export function TextRevealSection() {
           -webkit-text-fill-color: transparent;
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 900px) {
           .trs-root {
-            padding: 8vh 4% 10vh;
+            padding: 10vh 5% 12vh;
           }
           .trs-root::before,
           .trs-root::after {
-            height: 48px;
+            height: 56px;
           }
           .trs-line {
-            font-size: clamp(1.35rem, 9vw, 2.45rem);
-            padding: 0.32em 0;
-          }
-          .trs-fill-text {
-            font-size: clamp(1.35rem, 9vw, 2.45rem);
+            font-size: clamp(1.85rem, 8.2vw, 3.4rem);
+            padding: 0.34em 0;
+            letter-spacing: -0.02em;
           }
           .trs-fill {
-            padding: 0.32em 0;
+            padding: 0.34em 0;
+          }
+          .trs-fill-text {
+            font-size: clamp(1.85rem, 8.2vw, 3.4rem);
+            letter-spacing: -0.02em;
           }
         }
 
         @media (max-width: 480px) {
-          .trs-root { padding: 6vh 3.5% 8vh; }
+          .trs-root { padding: 8vh 4.5% 10vh; }
           .trs-line,
           .trs-fill-text {
-            font-size: clamp(1.2rem, 8.4vw, 2.1rem);
-            letter-spacing: -0.025em;
+            font-size: clamp(1.7rem, 9.2vw, 2.55rem);
+            letter-spacing: -0.03em;
+            line-height: 1.08;
           }
         }
       `}</style>

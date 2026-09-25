@@ -1,13 +1,15 @@
-﻿"use client";
+"use client";
 import React, { useRef, useEffect, useState, useId } from "react";
 import { motion } from "motion/react";
 
 export const TextHoverEffect = ({
   text,
   duration,
+  align = "center",
 }: {
   text: string;
   duration?: number;
+  align?: "center" | "left";
 }) => {
   const svgRef = useRef<SVGSVGElement>(null);
   const [cursor, setCursor] = useState({ x: 0, y: 0 });
@@ -28,6 +30,9 @@ export const TextHoverEffect = ({
   const calculatedHeight = 80;
   const currentViewBox = `0 0 ${calculatedWidth} ${calculatedHeight}`;
   // ------------------------- 👆
+
+  const textX = align === "left" ? "2%" : "50%";
+  const textAnchor = align === "left" ? "start" : "middle";
 
   useEffect(() => {
     if (svgRef.current && cursor.x !== null && cursor.y !== null) {
@@ -54,6 +59,7 @@ export const TextHoverEffect = ({
       onMouseMove={(e) => setCursor({ x: e.clientX, y: e.clientY })}
       // overflow-visible عشان أي توهج على الأطراف ميبانش إنه مقطوع
       className="select-none overflow-visible"
+      preserveAspectRatio={align === "left" ? "xMinYMid meet" : "xMidYMid meet"}
     >
       <defs>
         <linearGradient
@@ -91,9 +97,9 @@ export const TextHoverEffect = ({
       </defs>
 
       <text
-        x="50%"
+        x={textX}
         y="50%"
-        textAnchor="middle"
+        textAnchor={textAnchor}
         dominantBaseline="middle"
         strokeWidth="0.5"
         //fontSize ثابت، الفونت مش هيتمط بزيادة
@@ -105,9 +111,9 @@ export const TextHoverEffect = ({
       </text>
 
       <motion.text
-        x="50%"
+        x={textX}
         y="50%"
-        textAnchor="middle"
+        textAnchor={textAnchor}
         dominantBaseline="middle"
         strokeWidth="0.5"
         fontSize="36"
@@ -120,9 +126,9 @@ export const TextHoverEffect = ({
       </motion.text>
 
       <text
-        x="50%"
+        x={textX}
         y="50%"
-        textAnchor="middle"
+        textAnchor={textAnchor}
         dominantBaseline="middle"
         stroke={`url(#${gradientId})`}
         strokeWidth="0.5"
